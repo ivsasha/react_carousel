@@ -25,7 +25,7 @@ const Carousel: React.FC<Props> = ({
   }, [images, frameSize]);
 
   function next() {
-    if (frameSize + steping > images.length) {
+    if (steping + step + frameSize > images.length) {
       return;
     }
 
@@ -38,7 +38,9 @@ const Carousel: React.FC<Props> = ({
       return;
     }
 
-    setFilterImages(images.slice(steping - step, frameSize + steping - step));
+    setFilterImages(
+      images.slice(Math.max(steping - step, 0), frameSize + steping - step),
+    );
     setSteping(steping - step);
   }
 
@@ -52,6 +54,7 @@ const Carousel: React.FC<Props> = ({
                 key={`${image}-${steping}`}
                 style={{
                   animationDuration: `${animationDuration}ms`,
+                  width: `${itemWidth}px`,
                 }}
               >
                 <img
